@@ -33,7 +33,7 @@ public class LoginController {
 	/* 제일 첫 화면이동 메소드 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index() {
-		return "home";
+		return "logIn";
 	}
 	
 	
@@ -54,8 +54,10 @@ public class LoginController {
 					map.put("result",2);  //비밀번호 틀림
 				}
 			}
+		}else {
+			map.put("result",1); //아이디 없음
 		}
-		map.put("result",1); //아이디 없음
+		
 		
 		JSONObject json = JSONObject.fromObject(map);
 		
