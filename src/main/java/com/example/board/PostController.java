@@ -26,54 +26,134 @@ import net.sf.json.JSONObject;
 public class PostController {
 	private PostService postService;
 	
-	/* 게시글 목록 불러오기 */
+	///////////////////////////////////////////////////////////////////////////////
+	
+	/* 메인 게시글 이동 메소드 */
+	@RequestMapping(value = "/viewMainPost", method = RequestMethod.GET)
+	public String viewMainPost() {
+		return "postListPage";
+	}
+	
+	/* 게시글 목록 불러오기 메소드*/
 	@RequestMapping(value = "/postList", method = RequestMethod.GET)
-	public String postList(Model model) {
+	public JSONObject postList() {
 		
-		ArrayList<PostVO> postList = postService.getPostList();
+		Map<String, Object> map = new HashMap<String, Object>(); //  jsonobject 만들용
+		ArrayList<PostVO> postList = postService.getPostList();  // 리스트 목록 불러오기
 		
-		model.addAttribute("postList", postList);
+		JSONArray jPostList = JSONArray.fromObject(postList);
 		
-		return "postListPage";
+		map.put("result", jPostList);
+		
+		JSONObject json = JSONObject.fromObject(map);
+		
+		return json;
 	}
 	
-	/* 세부 글 내용  불러오기*/
-	@RequestMapping(value = "/postPage"+"/{postCode}", method = RequestMethod.POST)
-	public String postPage(Model model, @PathVariable String postCode) {
-		
-		PostVO postPage = postService.getPostPage(postCode);
-		
-		model.addAttribute("postPage", postPage);
-		
-		return "postListPage";
+	///////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////
+	
+	/* 세부 게시글  이동 메소드 */
+	@RequestMapping(value = "/viewPostPage", method = RequestMethod.GET)
+	public String viewPostPage() {
+		return "postViewPage";
 	}
 	
-	/* 글 작성 */
+	/* 세부 글 내용  불러오기 메소드*/ /* 글 수정을 위해 데이터를 불러오는 메소드로도 사용 */
+	@RequestMapping(value = "/postPage"+"/{post_code}", method = RequestMethod.POST)
+	public JSONObject postPage(@PathVariable String post_code) {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); //  jsonobject 만들용
+		PostVO postPage = postService.getPostPage(post_code);	//	게시글 내용 불러오기
+		
+		JSONArray jPostPage = JSONArray.fromObject(postPage);
+		
+		map.put("result", jPostPage);
+		
+		JSONObject json = JSONObject.fromObject(map);
+		
+		return json;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////
+	
+	
+	///////////////////////////////////////////////////////////////////////////////
+	
+	/* 글 작성 이동 메소드 */ /* 글 수정 view이동을 위해 같이 사용  */
+	@RequestMapping(value = "/viewWritePage", method = RequestMethod.GET)
+	public String viewWritePage() {
+		return "postWritePage";
+	}
+	
+	/* 글 작성 메소드 */
 	@RequestMapping(value = "/insertPost", method = RequestMethod.POST)
-	public String insertPost(Model model, PostVO postVo, HttpSession session) {
+	public JSONObject insertPost(PostVO postVo, HttpSession session) {
 		
-		postVo.setId((String)session.getAttribute("id"));
+		Map<String, Integer> map = new HashMap<String, Integer>(); //  jsonobject 만들용
+		postVo.setId((String)session.getAttribute("id"));  //세선의 아이디를 작성자로 사용하기 위해서
 		
-		postService.insertPost(postVo);
-				
-		return "postListPage";
+		int checkNum = postService.insertPost(postVo); //  checkNum 이 1이면 성공  0이면 실패   
+		
+		map.put("result", checkNum);  
+		
+		JSONObject json = JSONObject.fromObject(map);
+		
+		return json;
 	}
 	
-//	@RequestMapping(value = "/test", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject test(HttpServletRequest request) {
-//		String name = "관리자";
-//
-//		ArrayList<PostVO> postList = postService.getPostList();		게시글 목록 불러오기
-//		
-//		JSONArray jPostList = JSONArray.fromObject(postList);		json배열로 변환
-//
-//		Map<String, Object> map = new HashMap<String, Object>();	map생성해서 key값 value값  
-//		map.put("name", name);		
-//		map.put("postList", jPostList);
-//
-//		JSONObject json = JSONObject.fromObject(map);		최종 json으로 생성
-//
-//		return json;		json반환
-//	}
+	///////////////////////////////////////////////////////////////////////////////
+	
+	/* 글 수정 메소드  */
+	@RequestMapping(value = "/updatePost", method = RequestMethod.POST)
+	public JSONObject updatePost(PostVO postVo, HttpSession session) {
+		
+		Map<String, Integer> map = new HashMap<String, Integer>(); //  jsonobject 만들용
+		
+		if(!(postVo.getId().equals((String)session.getAttribute("id")))) {
+			
+			Map<String, String> err_map = new HashMap<String, String>(); //  err jsonobject 만들용
+			
+			err_map.put("result", "fail");  
+			
+			JSONObject json = JSONObject.fromObject(err_map);
+			
+			return json;
+		}
+		
+		int checkNum = postService.updatePost(postVo); //  checkNum 이 1이면 성공  0이면 실패   
+		
+		map.put("result", checkNum);  
+		
+		JSONObject json = JSONObject.fromObject(map);
+		
+		return json;
+	}
+	
+	/* 글 삭제 메소드  */
+	@RequestMapping(value = "/deletePost", method = RequestMethod.POST)
+	public JSONObject deletePost(PostVO postVo, HttpSession session) {
+		
+		Map<String, Integer> map = new HashMap<String, Integer>(); //  jsonobject 만들용
+		
+		if(!(postVo.getId().equals((String)session.getAttribute("id")))) {
+			
+			Map<String, String> err_map = new HashMap<String, String>(); //  err jsonobject 만들용
+			
+			err_map.put("result", "fail");  
+			
+			JSONObject json = JSONObject.fromObject(err_map);
+			
+			return json;
+		}
+
+		int checkNum = postService.deletePost(postVo.getPost_code()); //  checkNum 이 1이면 성공  0이면 실패   
+		
+		map.put("result", checkNum);  
+		
+		JSONObject json = JSONObject.fromObject(map);
+		
+		return json;
+	}
 }

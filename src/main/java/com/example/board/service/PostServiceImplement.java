@@ -21,14 +21,26 @@ public class PostServiceImplement implements PostService{
 	}
 	
 	@Override
-	public PostVO getPostPage(String postCode) {
+	public PostVO getPostPage(String post_code) {
 		// TODO Auto-generated method stub
-		return postMapper.getPostPage(postCode);
+		return postMapper.getPostPage(post_code);
 	}
 	
 	@Override
 	public int insertPost(PostVO post) {
 		// TODO Auto-generated method stub
 		return postMapper.insertPost(post);
+	}
+	
+	@Override
+	public int updatePost(PostVO post) {
+		// TODO Auto-generated method stub
+		return postMapper.updatePost(post);
+	}
+	
+	@Override
+	public int deletePost(int post_code) {
+		// TODO Auto-generated method stub
+		return postMapper.deletePost(post_code);
 	}
 }
