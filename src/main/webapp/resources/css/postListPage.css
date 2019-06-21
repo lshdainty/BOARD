@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#table_div{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-150px;
+    margin-left:-150px;
+}
