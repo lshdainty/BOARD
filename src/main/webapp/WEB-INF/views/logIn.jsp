@@ -5,14 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/resources/js/jquery-3.3.1.min.js"></script>
-<script src="/resources/js/logIn.js"></script>
-<link rel="stylesheet" href="/resources/css/logIn.css">
+<script src="resources/js/jquery-3.3.1.min.js"></script>
+<script src="resources/js/logIn.js"></script>
+<link rel="stylesheet" href="resources/css/logIn.css">
 </head>
 <body>
     <div>
         <label>아이디 : </label>
-        <input type="text" id="id"/>
+        <input type="text" id="id" autofocus/>
         
         <br/>
         <label>비밀번호 : </label>
