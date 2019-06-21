@@ -13,7 +13,13 @@
 	<div><!-- 특정 글 보는 뷰 DIV START-->
 		<h1>제목 :</h1>
 		<span id="post_title"> </span>
-
+		
+		<h1>작성자 : </h1>
+		<span id="id"></span>
+	
+		<h1>글 등록일 : </h1>
+		<span id="post_date"></span>
+		
 		<h1>내용</h1>
 		<span id="post_content"> </span>
 

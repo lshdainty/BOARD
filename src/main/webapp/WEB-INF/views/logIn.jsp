@@ -18,7 +18,7 @@
         <label>비밀번호 : </label>
         <input type="password" id="password"/>
 
-        <input type="button" value="로그인">
+        <input type="button" id="logIn" value="로그인">
     </div>
 </body>
 </html>

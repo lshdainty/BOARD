@@ -11,6 +11,12 @@
 </head>
 <body>
     <div> <!--글 쓰기 DIV START-->
+    	
+    	<div id="writerDiv">
+    		<label>작성자 : </label>
+    		<span id="id"></span>
+    	</div>
+    
         <div id="categoryDiv">
             <label>글 분류 : </label>
             <select id="board_code">
