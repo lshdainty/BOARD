@@ -18,7 +18,7 @@
 		where post_code = #{post_code}
 	</update>
 	
-	<delete id="deletePost" parameterType="String">
+	<delete id="deletePost" parameterType="int">
 		delete from post where post_code = #{post_code}
 	</delete>
 </mapper>

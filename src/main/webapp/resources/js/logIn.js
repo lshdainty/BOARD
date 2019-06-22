@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	$("#logIn").click(function(){
 		
-		var query = {id:$("#id").val(), password:$("#password").val()}
+		var query = {id:$("#id").val(), password:$("#password").val()};
 		
 	    $.ajax({
 	    	url: "/board/",

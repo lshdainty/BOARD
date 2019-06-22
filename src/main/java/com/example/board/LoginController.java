@@ -48,7 +48,7 @@ public class LoginController {
 			if(id.equals(member.get(0).getId())) {			//select 의 결과가 있다면 들고온값과 입력받은 값 비교
 				if(password.equals(member.get(0).getPw())) { // 아이디가 일치할때 비밀번호 확인
 					session.setAttribute("id" , member.get(0).getId());
-					
+					System.out.println(member.get(0).getId());
 					map.put("result",0);  //로그인 성공
 				}else {
 					map.put("result",2);  //비밀번호 틀림
