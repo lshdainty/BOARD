@@ -1,19 +1,19 @@
 $(document).ready(function(){
 
+//	jsp페이지가 load되면 controller로부터 게시판 list를 불러와 화면에 출력
 	$.ajax({
     	url: "/board/postList",
     	type: "GET",
-    	data : {},
     	dataType: "json", // controller return을 json으로 받음
     	success : function(data){
     		var tbody = $('#tbody');
     		var html = ""; // jsp에 추가할 html코드 : 게시글 한개
     		for( var i = 0; i < data.result.length; i++) {
     			html += '<tr class="tbody_tr">' +
-                			'<td>'+data.result[i].post_code+'</td>' + 
+                			'<td>'+data.result[i].post_code+'</td>' +  
                 			'<td>'+data.result[i].post_title+'</td>' + 
                 			'<td>'+data.result[i].id+'</td>' + 
-                			'<td>'+new Date(data.result[i].post_date.time).format("yyyy-MM-dd")+'</td>' + 
+                			'<td>'+new Date(data.result[i].post_date.time).format("yyyy-MM-dd")+'</td>' + // Date는 ajax로 넘어올때 밀리세컨드로 넘어와서 format을 변경해야함 
                 		'</tr>';
     		}
     		tbody.append(html); // tbody태그에 추가
@@ -22,17 +22,21 @@ $(document).ready(function(){
     	}
     }); // ajax END
 	
+//	글쓰기 버튼 클릭
 	$('#writePost').click(function() {
 		$(location).attr('href', '/board/viewWritePage');
 	})
 	
-	$(document).on('click', '.tbody_tr', function() {
-		var post_code = $(this).find('td:eq(0)').text().trim();
+//	게시글 하나를 클릭
+	$(document).on('click', '.tbody_tr', function() { // $(document).on : 회면을 새로읽음
+		var post_code = $(this).find('td:eq(0)').text().trim(); // 선택한 게시글의 post code
 
 		$(location).attr('href', '/board/viewPostPage?post_code='+ post_code);
 	})
 });
 
+
+/*Date의 format을 변경해주는 메소드*/
 Date.prototype.format = function(f) {
     if (!this.valueOf()) return " ";
  
@@ -59,3 +63,4 @@ Date.prototype.format = function(f) {
 String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
 String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
 Number.prototype.zf = function(len){return this.toString().zf(len);};
+/*Date format 변경 메소드 end*/

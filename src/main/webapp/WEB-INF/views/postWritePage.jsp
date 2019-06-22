@@ -12,6 +12,7 @@
 </head>
 <body>
     <div> <!--글 쓰기 DIV START-->
+		<!-- 수정하기로 들어올때 게시글 번호를 input에 저장 -->
     	<input id="post_code" type="hidden" value="${param.post_code}">
     	
     	<div id="writerDiv">

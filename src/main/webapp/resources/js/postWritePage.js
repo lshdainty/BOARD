@@ -5,14 +5,14 @@ $(document).ready(function(){
 	}
 	
 	if( query.post_code != "") { // 게시글 수정을 누르고 들어왔을 때
+		// post_code에 해당하는 게시글의 데이터를 db에서 가져와 화면에 출력
 		 $.ajax({
 	        url: "/board/postPage/",
 	        type: "GET",
 	        dataType: "json",
 	        data: query,
 	        success : function(data){
-	        	console.log(data.result[0].post_title);
-	            $('#post_title').val(data.result[0].post_title);
+	            $('#post_title').val(data.result[0].post_title); // <input>는 append() 대신 val() 사용
 	            $('#post_content').append(data.result[0].post_content);
 	            
 	            query.id = data.result[0].id; // update를 위해 저장
@@ -25,13 +25,13 @@ $(document).ready(function(){
 			 query.post_title = $('#post_title').val(),
 			 query.post_content = $('#post_content').val()
 			
+			 // update ajax
 			$.ajax({
 		    	url: "/board/updatePost",
 		    	type: "POST",
 		    	data : query,
 		    	dataType: "json", // controller return을 json으로 받음
 		    	success : function(data){
-		    		console.log(data);
 		    		$(location).attr('href', '/board/viewMainPost');
 		    	}, error: function(data) {
 		    		console.log(data);
@@ -47,13 +47,13 @@ $(document).ready(function(){
 				post_content : $('#post_content').val()
 			};
 			
+//			insert ajax
 			$.ajax({
 		    	url: "/board/insertPost",
 		    	type: "POST",
 		    	data : query,
 		    	dataType: "json", // controller return을 json으로 받음
 		    	success : function(data){
-		    		console.log("??");
 		    		$(location).attr('href', '/board/viewMainPost');
 		    	}, error: function(data) {
 		    		console.log(data);
@@ -62,6 +62,7 @@ $(document).ready(function(){
 		});
 	}
 	
+	// 취소 버튼 클릭
 	$('#postCancel').click(function() {
 		$(location).attr('href', '/board/viewMainPost');
 	})

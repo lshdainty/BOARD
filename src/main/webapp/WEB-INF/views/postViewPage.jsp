@@ -13,7 +13,7 @@
 <body>
 	<!-- 선택한 게시글의 게시글 번호를 input에 저장 -->
 	<input id="post_code" type="hidden" value="${param.post_code}">
-	${sessionScope.id}
+	
 	<div><!-- 특정 글 보는 뷰 DIV START-->
 		<h1>제목 :</h1>
 		<span id="post_title"> </span>
