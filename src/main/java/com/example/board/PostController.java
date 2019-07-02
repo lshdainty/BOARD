@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.board.domain.PostVO;
@@ -35,6 +33,7 @@ public class PostController {
 	}
 	
 	/* 게시글 목록 불러오기 메소드*/
+	@ResponseBody
 	@RequestMapping(value = "/postList", method = RequestMethod.GET)
 	public JSONObject postList() {
 		
@@ -61,9 +60,9 @@ public class PostController {
 	}
 	
 	/* 세부 글 내용  불러오기 메소드*/ /* 글 수정을 위해 데이터를 불러오는 메소드로도 사용 */
-	@RequestMapping(value = "/postPage"+"/{post_code}", method = RequestMethod.POST)
-	public JSONObject postPage(@PathVariable String post_code) {
-		
+	@ResponseBody
+	@RequestMapping(value = "/postPage", method = RequestMethod.GET)
+	public JSONObject postPage(@RequestParam("post_code") String post_code) {
 		Map<String, Object> map = new HashMap<String, Object>(); //  jsonobject 만들용
 		PostVO postPage = postService.getPostPage(post_code);	//	게시글 내용 불러오기
 		
@@ -88,6 +87,7 @@ public class PostController {
 	}
 	
 	/* 글 작성 메소드 */
+	@ResponseBody
 	@RequestMapping(value = "/insertPost", method = RequestMethod.POST)
 	public JSONObject insertPost(PostVO postVo, HttpSession session) {
 		
@@ -99,6 +99,7 @@ public class PostController {
 		map.put("result", checkNum);  
 		
 		JSONObject json = JSONObject.fromObject(map);
+		System.out.println(json);
 		
 		return json;
 	}
@@ -106,6 +107,7 @@ public class PostController {
 	///////////////////////////////////////////////////////////////////////////////
 	
 	/* 글 수정 메소드  */
+	@ResponseBody
 	@RequestMapping(value = "/updatePost", method = RequestMethod.POST)
 	public JSONObject updatePost(PostVO postVo, HttpSession session) {
 		
@@ -132,13 +134,14 @@ public class PostController {
 	}
 	
 	/* 글 삭제 메소드  */
+	@ResponseBody
 	@RequestMapping(value = "/deletePost", method = RequestMethod.POST)
 	public JSONObject deletePost(PostVO postVo, HttpSession session) {
 		
 		Map<String, Integer> map = new HashMap<String, Integer>(); //  jsonobject 만들용
-		
+		System.out.println(postVo.getId() + ", " + session.getAttribute("id"));
 		if(!(postVo.getId().equals((String)session.getAttribute("id")))) {
-			
+			System.out.println(1);
 			Map<String, String> err_map = new HashMap<String, String>(); //  err jsonobject 만들용
 			
 			err_map.put("result", "fail");  
@@ -147,7 +150,7 @@ public class PostController {
 			
 			return json;
 		}
-
+		System.out.println(2);
 		int checkNum = postService.deletePost(postVo.getPost_code()); //  checkNum 이 1이면 성공  0이면 실패   
 		
 		map.put("result", checkNum);  

@@ -1,20 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>글 쓰기 페이지</title>
-<script src="/resources/js/jquery-3.3.1.min.js"></script>
-<script src="/resources/js/postWritePage.js"></script>
-<link rel="stylesheet" href="/resources/css/postWritePage.css">
+<script src="resources/js/jquery-3.3.1.min.js"></script>
+<script src="resources/js/postWritePage.js"></script>
+<link rel="stylesheet" href="resources/css/postWritePage.css">
 </head>
 <body>
     <div> <!--글 쓰기 DIV START-->
+		<!-- 수정하기로 들어올때 게시글 번호를 input에 저장 -->
+    	<input id="post_code" type="hidden" value="${param.post_code}">
     	
     	<div id="writerDiv">
-    		<label>작성자 : </label>
-    		<span id="id"></span>
+    		<label>작성자 : ${sessionScope.id}</label>
     	</div>
     
         <div id="categoryDiv">
