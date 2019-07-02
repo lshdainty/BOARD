@@ -11,7 +11,7 @@ $(document).ready(function(){
 	    	data: query,
 	    	success : function(data){
 	    		if(data.result == "1"){
-	    			alert("아이디가 없습니다.");
+	    			alert("아이디가 없습니다.")   ;
 	    		}else if(data.result == "2"){
 	    			alert("비밀번호가 틀렸습니다.");
 	    		}else{
